@@ -1,0 +1,48 @@
+services:
+    javer_influxdb.connection.factory:
+        class: Javer\InfluxDB\Bundle\Connection\ConnectionFactory
+        arguments:
+            - '@javer_influxdb.logger.influxdb'
+            - '%javer_influxdb.logging%'
+
+    javer_influxdb.data_collector.influxdb:
+        class: Javer\InfluxDB\Bundle\DataCollector\InfluxDBDataCollector
+        arguments:
+            - '@javer_influxdb.logger.influxdb'
+        tags:
+            - { name: data_collector, template: '@JaverInfluxDB/Collector/influxdb.html.twig', id: influxdb }
+
+    javer_influxdb.logger.influxdb:
+        class: Javer\InfluxDB\Bundle\Logger\InfluxDBLogger
+        arguments:
+            - '@?logger'
+        tags:
+            - { name: monolog.logger, channel: influxdb }
+
+    javer_influxdb.odm.mapping.driver.annotation:
+        class: Javer\InfluxDB\ODM\Mapping\Driver\AnnotationDriver
+        arguments:
+            - '@annotation_reader'
+            - '%javer_influxdb.mapping_dir%'
+
+    javer_influxdb.repository.service_repository_factory:
+        class: Javer\InfluxDB\Bundle\Repository\ServiceRepositoryFactory
+        arguments:
+            - !tagged_locator 'influxdb.repository_service'
+
+    javer_influxdb.odm.measurement_manager:
+        class: Javer\InfluxDB\ODM\MeasurementManager
+        arguments:
+            - '@javer_influxdb.odm.mapping.driver.annotation'
+            - '@javer_influxdb.connection.factory'
+            - '@javer_influxdb.repository.service_repository_factory'
+            - '%javer_influxdb.url%'
+
+    Javer\InfluxDB\ODM\Connection\ConnectionFactoryInterface:
+        alias: javer_influxdb.connection.factory
+
+    Javer\InfluxDB\ODM\Repository\RepositoryFactoryInterface:
+        alias: javer_influxdb.repository.service_repository_factory
+
+    Javer\InfluxDB\ODM\MeasurementManager:
+        alias: javer_influxdb.odm.measurement_manager

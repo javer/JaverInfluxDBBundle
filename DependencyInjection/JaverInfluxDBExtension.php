@@ -9,11 +9,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-/**
- * Class JaverInfluxDBExtension
- *
- * @package Javer\InfluxDB\Bundle\DependencyInjection
- */
 class JaverInfluxDBExtension extends Extension
 {
     private const REPOSITORY_SERVICE_TAG = 'influxdb.repository_service';

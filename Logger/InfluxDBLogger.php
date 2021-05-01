@@ -6,11 +6,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Service\ResetInterface;
 use Throwable;
 
-/**
- * Class InfluxDBLogger
- *
- * @package Javer\InfluxDB\Bundle\Logger
- */
 class InfluxDBLogger implements ResetInterface
 {
     private ?LoggerInterface $logger;
@@ -28,24 +23,11 @@ class InfluxDBLogger implements ResetInterface
 
     private int $errorsCount = 0;
 
-    /**
-     * InfluxDBLogger constructor.
-     *
-     * @param LoggerInterface|null $logger
-     */
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }
 
-    /**
-     * Logs a query.
-     *
-     * @param string         $query
-     * @param integer        $numRows
-     * @param float          $time
-     * @param Throwable|null $exception
-     */
     public function logQuery(string $query, int $numRows, float $time, ?Throwable $exception = null): void
     {
         $this->queries[] = [
@@ -78,49 +60,26 @@ class InfluxDBLogger implements ResetInterface
         return $this->queries;
     }
 
-    /**
-     * Returns queries count.
-     *
-     * @return integer
-     */
     public function getQueriesCount(): int
     {
         return $this->queriesCount;
     }
 
-    /**
-     * Returns queries rows.
-     *
-     * @return integer
-     */
     public function getQueriesRows(): int
     {
         return $this->queriesRows;
     }
 
-    /**
-     * Returns queries time.
-     *
-     * @return float
-     */
     public function getQueriesTime(): float
     {
         return $this->queriesTime;
     }
 
-    /**
-     * Returns errors count.
-     *
-     * @return integer
-     */
     public function getErrorsCount(): int
     {
         return $this->errorsCount;
     }
 
-    /**
-     * Resets internal state.
-     */
     public function reset(): void
     {
         $this->queries = [];

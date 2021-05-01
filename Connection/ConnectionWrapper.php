@@ -7,20 +7,10 @@ use InfluxDB\ResultSet;
 use Javer\InfluxDB\Bundle\Logger\InfluxDBLogger;
 use Throwable;
 
-/**
- * Class ConnectionWrapper
- *
- * @package Javer\InfluxDB\Bundle\Connection
- */
 class ConnectionWrapper extends Client
 {
     private ?InfluxDBLogger $logger = null;
 
-    /**
-     * Set logger.
-     *
-     * @param InfluxDBLogger|null $logger
-     */
     public function setLogger(?InfluxDBLogger $logger): void
     {
         $this->logger = $logger;

@@ -8,11 +8,6 @@ use InfluxDB\Driver\UDP;
 use Javer\InfluxDB\Bundle\Logger\InfluxDBLogger;
 use Javer\InfluxDB\ODM\Connection\ConnectionFactoryInterface;
 
-/**
- * Class ConnectionFactory
- *
- * @package Javer\InfluxDB\Bundle\Connection
- */
 class ConnectionFactory implements ConnectionFactoryInterface
 {
     private InfluxDBLogger $logger;
@@ -24,12 +19,6 @@ class ConnectionFactory implements ConnectionFactoryInterface
      */
     private array $databases = [];
 
-    /**
-     * ConnectionFactory constructor.
-     *
-     * @param InfluxDBLogger $logger
-     * @param boolean        $logging
-     */
     public function __construct(InfluxDBLogger $logger, bool $logging)
     {
         $this->logger = $logger;

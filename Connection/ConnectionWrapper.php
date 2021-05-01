@@ -30,6 +30,8 @@ class ConnectionWrapper extends Client
      * {@inheritDoc}
      *
      * @throws Throwable
+     *
+     * @phpstan-param array<string, mixed> $parameters
      */
     public function query($database, $query, $parameters = []): ResultSet
     {
@@ -63,6 +65,9 @@ class ConnectionWrapper extends Client
 
     /**
      * {@inheritDoc}
+     *
+     * @phpstan-param array<string, mixed> $parameters
+     * @phpstan-param string|string[] $payload
      */
     public function write(array $parameters, $payload): bool
     {

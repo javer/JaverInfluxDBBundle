@@ -19,7 +19,10 @@ class JaverInfluxDBExtension extends Extension
     private const REPOSITORY_SERVICE_TAG = 'influxdb.repository_service';
 
     /**
-     * {@inheritDoc}
+     * Loads a specific configuration.
+     *
+     * @param mixed[]          $configs
+     * @param ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container): void
     {

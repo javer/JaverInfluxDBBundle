@@ -17,6 +17,9 @@ class ServiceRepositoryFactory implements RepositoryFactoryInterface
 {
     /**
      * @var MeasurementRepository[]
+     *
+     * @phpstan-var array<string, MeasurementRepository>
+     * @phpstan-ignore-next-line: Unable to specify T for MeasurementRepository because it is hashmap for all classes
      */
     private array $repositories = [];
 
@@ -52,6 +55,10 @@ class ServiceRepositoryFactory implements RepositoryFactoryInterface
      * @return MeasurementRepository
      *
      * @throws RuntimeException
+     *
+     * @phpstan-template T of object
+     * @phpstan-param    class-string<T> $className
+     * @phpstan-return   MeasurementRepository<T>
      */
     private function getOrCreateRepository(
         MeasurementManager $measurementManager,

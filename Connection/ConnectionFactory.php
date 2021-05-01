@@ -20,7 +20,7 @@ class ConnectionFactory implements ConnectionFactoryInterface
     private bool $logging;
 
     /**
-     * @var Database[]
+     * @var array<string, Database>
      */
     private array $databases = [];
 
@@ -51,6 +51,22 @@ class ConnectionFactory implements ConnectionFactoryInterface
 
         if ($connParams === false) {
             throw new ClientException('Unable to parse the InfluxDB DSN');
+        }
+
+        if (!isset($connParams['scheme'])) {
+            throw new ClientException('Scheme must be specified in InfluxDB DSN');
+        }
+
+        if (!isset($connParams['host'])) {
+            throw new ClientException('Host must be specified in InfluxDB DSN');
+        }
+
+        if (!isset($connParams['port'])) {
+            throw new ClientException('Port must be specified in InfluxDB DSN');
+        }
+
+        if (!isset($connParams['path'])) {
+            throw new ClientException('Database name must be specified in InfluxDB DSN');
         }
 
         $schemeInfo = explode('+', $connParams['scheme']);

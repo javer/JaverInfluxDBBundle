@@ -15,6 +15,9 @@ class InfluxDBLogger implements ResetInterface
 {
     private ?LoggerInterface $logger;
 
+    /**
+     * @var array<array{query: string, rows: int, time: float, error: ?string}>
+     */
     private array $queries = [];
 
     private int $queriesCount = 0;
@@ -68,7 +71,7 @@ class InfluxDBLogger implements ResetInterface
     /**
      * Returns queries.
      *
-     * @return array
+     * @return array<array{query: string, rows: int, time: float, error: ?string}>
      */
     public function getQueries(): array
     {

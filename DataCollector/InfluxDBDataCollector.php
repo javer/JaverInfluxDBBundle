@@ -44,7 +44,7 @@ class InfluxDBDataCollector extends DataCollector
     /**
      * Returns an array of queries.
      *
-     * @return array
+     * @return array<array{query: string, rows: int, time: float, error: ?string}>
      */
     public function getQueries(): array
     {

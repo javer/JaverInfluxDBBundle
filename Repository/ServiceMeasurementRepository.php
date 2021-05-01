@@ -19,7 +19,8 @@ use Javer\InfluxDB\ODM\Repository\MeasurementRepository;
  *     }
  * }
  *
- * @package Javer\InfluxDB\Bundle\Repository
+ * @template T of object
+ * @template-extends MeasurementRepository<T>
  */
 class ServiceMeasurementRepository extends MeasurementRepository implements ServiceMeasurementRepositoryInterface
 {

@@ -59,7 +59,6 @@ class ConnectionFactory implements ConnectionFactoryInterface
         }
 
         $schemeInfo = explode('+', $connParams['scheme']);
-        $dbName = null;
         $modifier = null;
         $scheme = $schemeInfo[0];
 
@@ -73,7 +72,7 @@ class ConnectionFactory implements ConnectionFactoryInterface
         }
 
         $ssl = $modifier === 'https';
-        $dbName = isset($connParams['path']) ? substr($connParams['path'], 1) : null;
+        $dbName = substr($connParams['path'], 1);
 
         $client = new ConnectionWrapper(
             $connParams['host'],

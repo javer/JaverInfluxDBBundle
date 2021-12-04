@@ -53,6 +53,8 @@ class ServiceRepositoryFactory implements RepositoryFactoryInterface
     ): MeasurementRepository
     {
         $classMetadata = $measurementManager->getClassMetadata($className);
+
+        /** @phpstan-var class-string<MeasurementRepository<T>> $repositoryClassName */
         $repositoryClassName = $classMetadata->customRepositoryClassName ?? MeasurementRepository::class;
 
         if ($this->repositoryLocator->has($repositoryClassName)) {

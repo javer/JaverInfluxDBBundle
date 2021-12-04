@@ -16,17 +16,20 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - php-version: '7.4'
-                      symfony-version: '4.4.*'
-                      experimental: false
-                    - php-version: '7.4'
-                      symfony-version: '5.2.*'
-                      experimental: false
                     - php-version: '8.0'
                       symfony-version: '4.4.*'
                       experimental: false
                     - php-version: '8.0'
-                      symfony-version: '5.2.*'
+                      symfony-version: '5.4.*'
+                      experimental: false
+                    - php-version: '8.0'
+                      symfony-version: '6.0.*'
+                      experimental: false
+                    - php-version: '8.1'
+                      symfony-version: '5.4.*'
+                      experimental: false
+                    - php-version: '8.1'
+                      symfony-version: '6.0.*'
                       experimental: false
 
         steps:
@@ -39,18 +42,17 @@ jobs:
                   coverage: none
                   ini-values: "memory_limit=-1"
                   php-version: ${{ matrix.php-version }}
-                  tools: composer:v2, cs2pr
+                  tools: composer:v2, cs2pr, flex
 
             - name: Validate composer.json
               run: composer validate --no-check-lock
-
-            - name: Configure Symfony version
-              run: composer require --no-update symfony/symfony "${{ matrix.symfony-version }}"
 
             - name: Install Composer dependencies
               uses: "ramsey/composer-install@v1"
               with:
                   composer-options: "--prefer-dist"
+              env:
+                  SYMFONY_REQUIRE: "${{ matrix.symfony-version }}"
 
             - name: Setup problem matchers for PHP
               run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"

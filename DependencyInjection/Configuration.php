@@ -16,6 +16,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('url')->defaultValue('%env(INFLUXDB_URL)%')->end()
                 ->scalarNode('mapping_dir')->defaultValue('%kernel.project_dir%/src/Measurement')->end()
+                ->scalarNode('mapping_type')->defaultValue('annotation')->end()
                 ->booleanNode('logging')->defaultValue('%kernel.debug%')->end()
                 ->arrayNode('types')
                     ->useAttributeAsKey('name')

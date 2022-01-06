@@ -25,6 +25,15 @@ services:
             - '@annotation_reader'
             - '%javer_influxdb.mapping_dir%'
 
+    javer_influxdb.odm.mapping.driver.attribute:
+        class: Javer\InfluxDB\ODM\Mapping\Driver\AttributeDriver
+        arguments:
+            - '%javer_influxdb.mapping_dir%'
+            - '@javer_influxdb.odm.mapping.driver.attribute_reader'
+
+    javer_influxdb.odm.mapping.driver.attribute_reader:
+        class: Javer\InfluxDB\ODM\Mapping\Driver\AttributeReader
+
     javer_influxdb.repository.service_repository_factory:
         class: Javer\InfluxDB\Bundle\Repository\ServiceRepositoryFactory
         arguments:

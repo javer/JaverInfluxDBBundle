@@ -14,8 +14,8 @@
     ],
     "require": {
         "php": ">=8.0",
-        "doctrine/annotations": "^1.0",
-        "javer/influxdb-odm": "^1.0",
+        "doctrine/annotations": "^1.12",
+        "javer/influxdb-odm": "^1.3",
         "symfony/config": "^4.4 || ^5.0 || ^6.0",
         "symfony/dependency-injection": "^4.4 || ^5.0 || ^6.0",
         "symfony/http-foundation": "^4.4 || ^5.0 || ^6.0",
@@ -24,9 +24,9 @@
         "symfony/yaml": "^4.4 || ^5.0 || ^6.0"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan": "^1.3",
         "squizlabs/php_codesniffer": "3.6.*",
-        "swivl/php-coding-standard": "^1.2"
+        "swivl/php-coding-standard": "^1.4"
     },
     "autoload": {
         "psr-4": {
@@ -35,7 +35,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1.x-dev"
+            "dev-master": "1.2.x-dev"
         }
     }
 }

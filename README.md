@@ -11,7 +11,7 @@ Compatibility
 
 The current version of this bundle has the following requirements:
 * InfluxDB 1.x
-* PHP 7.4+
+* PHP 8.0+
 * Symfony 4.4+
 
 Installation
@@ -64,6 +64,7 @@ Configuration
 javer_influx_db:
     url: '%env(INFLUXDB_URL)%'
     mapping_dir: '%kernel.project_dir%/src/Measurement'
+    mapping_type: annotation
 ```
 
 ```ini

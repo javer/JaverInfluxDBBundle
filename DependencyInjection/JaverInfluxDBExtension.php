@@ -3,10 +3,10 @@
 namespace Javer\InfluxDB\Bundle\DependencyInjection;
 
 use Javer\InfluxDB\Bundle\Repository\ServiceMeasurementRepositoryInterface;
-use Javer\InfluxDB\ODM\MeasurementManager;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class JaverInfluxDBExtension extends Extension
@@ -31,9 +31,14 @@ class JaverInfluxDBExtension extends Extension
         $container->setParameter('javer_influxdb.mapping_dir', $config['mapping_dir']);
         $container->setParameter('javer_influxdb.logging', $config['logging']);
 
+        $managerDefinition = $container->getDefinition('javer_influxdb.odm.measurement_manager');
+
         if (!empty($config['types'])) {
-            $managerDefinition = $container->getDefinition(MeasurementManager::class);
             $managerDefinition->addMethodCall('loadTypes', [$config['types']]);
+        }
+
+        if ($config['mapping_type'] === 'attribute') {
+            $managerDefinition->replaceArgument(0, new Reference('javer_influxdb.odm.mapping.driver.attribute'));
         }
 
         $container->registerForAutoconfiguration(ServiceMeasurementRepositoryInterface::class)

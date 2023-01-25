@@ -77,7 +77,7 @@
 
     <h2>Queries</h2>
 
-    {% if collector.queriesCount == 0 %}
+    {% if collector.queries|length == 0 %}
         <div class="empty">
             <p>No queries were executed or the logger is disabled.</p>
         </div>
@@ -106,6 +106,76 @@
                         </td>
                     </tr>
                 {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <h2>Writes</h2>
+
+    {% if collector.writes|length == 0 %}
+        <div class="empty">
+            <p>No writes were executed or the logger is disabled.</p>
+        </div>
+    {% else %}
+        <table class="alt">
+            <thead>
+            <tr>
+                <th class="nowrap">#</th>
+                <th class="nowrap">Time</th>
+                <th class="nowrap">Rows</th>
+                <th style="width: 100%">Query</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for query in collector.writes %}
+                <tr {{ query.error ? 'class="status-error"' }}>
+                    <td>{{ loop.index }}</td>
+                    <td class="nowrap">{{ '%0.2f'|format(query.time * 1000) }} ms</td>
+                    <td class="nowrap">{{ query.rows }}</td>
+                    <td>
+                        {{ query.query }}
+
+                        {% if query.error %}
+                            <br><strong class="font-normal">An error occurred: {{ query.error }}</strong>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <h2>Deletions</h2>
+
+    {% if collector.deletions|length == 0 %}
+        <div class="empty">
+            <p>No deletions were executed or the logger is disabled.</p>
+        </div>
+    {% else %}
+        <table class="alt">
+            <thead>
+            <tr>
+                <th class="nowrap">#</th>
+                <th class="nowrap">Time</th>
+                <th class="nowrap">Rows</th>
+                <th style="width: 100%">Query</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for query in collector.deletions %}
+                <tr {{ query.error ? 'class="status-error"' }}>
+                    <td>{{ loop.index }}</td>
+                    <td class="nowrap">{{ '%0.2f'|format(query.time * 1000) }} ms</td>
+                    <td class="nowrap">{{ query.rows }}</td>
+                    <td>
+                        {{ query.query }}
+
+                        {% if query.error %}
+                            <br><strong class="font-normal">An error occurred: {{ query.error }}</strong>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
     {% endif %}

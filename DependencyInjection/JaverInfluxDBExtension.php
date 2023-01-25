@@ -6,18 +6,14 @@ use Javer\InfluxDB\Bundle\Repository\ServiceMeasurementRepositoryInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class JaverInfluxDBExtension extends Extension
+final class JaverInfluxDBExtension extends Extension
 {
     private const REPOSITORY_SERVICE_TAG = 'influxdb.repository_service';
 
     /**
-     * Loads a specific configuration.
-     *
-     * @param mixed[]          $configs
-     * @param ContainerBuilder $container
+     * {@inheritDoc}
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -27,7 +23,12 @@ class JaverInfluxDBExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
 
+        if ($config['logging'] ?? null) {
+            $loader->load('logging_services.yaml');
+        }
+
         $container->setParameter('javer_influxdb.url', $config['url']);
+        $container->setParameter('javer_influxdb.precision', $config['precision']);
         $container->setParameter('javer_influxdb.mapping_dir', $config['mapping_dir']);
         $container->setParameter('javer_influxdb.logging', $config['logging']);
 
@@ -35,10 +36,6 @@ class JaverInfluxDBExtension extends Extension
 
         if (!empty($config['types'])) {
             $managerDefinition->addMethodCall('loadTypes', [$config['types']]);
-        }
-
-        if ($config['mapping_type'] === 'attribute') {
-            $managerDefinition->replaceArgument(0, new Reference('javer_influxdb.odm.mapping.driver.attribute'));
         }
 
         $container->registerForAutoconfiguration(ServiceMeasurementRepositoryInterface::class)

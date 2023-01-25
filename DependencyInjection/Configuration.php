@@ -2,10 +2,11 @@
 
 namespace Javer\InfluxDB\Bundle\DependencyInjection;
 
+use InfluxDB2\Model\WritePrecision;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
@@ -15,8 +16,8 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('url')->defaultValue('%env(INFLUXDB_URL)%')->end()
+                ->scalarNode('precision')->defaultValue(WritePrecision::NS)->end()
                 ->scalarNode('mapping_dir')->defaultValue('%kernel.project_dir%/src/Measurement')->end()
-                ->scalarNode('mapping_type')->defaultValue('annotation')->end()
                 ->booleanNode('logging')->defaultValue('%kernel.debug%')->end()
                 ->arrayNode('types')
                     ->useAttributeAsKey('name')

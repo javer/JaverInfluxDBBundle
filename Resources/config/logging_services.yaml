@@ -1,0 +1,20 @@
+services:
+  javer_influxdb.data_collector.influxdb:
+    class: Javer\InfluxDB\Bundle\DataCollector\InfluxDBDataCollector
+    arguments:
+      - '@javer_influxdb.logger.influxdb'
+    tags:
+      - { name: data_collector, template: '@JaverInfluxDB/Collector/influxdb.html.twig', id: influxdb }
+
+  javer_influxdb.logger.influxdb:
+    class: Javer\InfluxDB\Bundle\Logger\ResettableInfluxDBLogger
+    arguments:
+      - !service
+        class: Javer\InfluxDB\ODM\Logger\InfluxLogger
+        arguments:
+          - '@?logger'
+    tags:
+      - { name: monolog.logger, channel: influxdb }
+
+  Javer\InfluxDB\ODM\Logger\InfluxLoggerInterface:
+    alias: javer_influxdb.logger.influxdb

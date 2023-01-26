@@ -8,7 +8,7 @@ use Javer\InfluxDB\ODM\Repository\RepositoryFactoryInterface;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
-class ServiceRepositoryFactory implements RepositoryFactoryInterface
+final class ServiceRepositoryFactory implements RepositoryFactoryInterface
 {
     /**
      * @var MeasurementRepository[]
@@ -18,11 +18,10 @@ class ServiceRepositoryFactory implements RepositoryFactoryInterface
      */
     private array $repositories = [];
 
-    private ServiceLocator $repositoryLocator;
-
-    public function __construct(ServiceLocator $repositoryLocator)
+    public function __construct(
+        private readonly ServiceLocator $repositoryLocator,
+    )
     {
-        $this->repositoryLocator = $repositoryLocator;
     }
 
     public function getRepository(MeasurementManager $measurementManager, string $className): MeasurementRepository
@@ -35,11 +34,6 @@ class ServiceRepositoryFactory implements RepositoryFactoryInterface
 
     /**
      * Gets or creates a new repository.
-     *
-     * @param MeasurementManager $measurementManager
-     * @param string             $className
-     *
-     * @return MeasurementRepository
      *
      * @throws RuntimeException
      *

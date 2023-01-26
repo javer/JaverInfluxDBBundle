@@ -2,25 +2,29 @@
 
 namespace Javer\InfluxDB\Bundle\DataCollector;
 
-use Javer\InfluxDB\Bundle\Logger\InfluxDBLogger;
+use Javer\InfluxDB\ODM\Logger\InfluxLoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Throwable;
 
-class InfluxDBDataCollector extends DataCollector
+/**
+ * @phpstan-type T array{query: string, time: float, rows: int, error?: string|null}
+ */
+final class InfluxDBDataCollector extends DataCollector
 {
-    private InfluxDBLogger $logger;
-
-    public function __construct(InfluxDBLogger $logger)
+    public function __construct(
+        private readonly InfluxLoggerInterface $logger,
+    )
     {
-        $this->logger = $logger;
     }
 
     public function collect(Request $request, Response $response, Throwable $exception = null): void
     {
         $this->data = [
             'queries' => $this->logger->getQueries(),
+            'writes' => $this->logger->getWrites(),
+            'deletions' => $this->logger->getDeletions(),
             'queriesCount' => $this->logger->getQueriesCount(),
             'queriesRows' => $this->logger->getQueriesRows(),
             'queriesTime' => $this->logger->getQueriesTime(),
@@ -31,11 +35,37 @@ class InfluxDBDataCollector extends DataCollector
     /**
      * Returns an array of queries.
      *
-     * @return array<array{query: string, rows: int, time: float, error: ?string}>
+     * @return mixed[]
+     *
+     * @phpstan-return array<int, T>
      */
     public function getQueries(): array
     {
         return $this->data['queries'];
+    }
+
+    /**
+     * Returns an array of writes.
+     *
+     * @return mixed[]
+     *
+     * @phpstan-return array<int, T>
+     */
+    public function getWrites(): array
+    {
+        return $this->data['writes'];
+    }
+
+    /**
+     * Returns an array of deletions.
+     *
+     * @return mixed[]
+     *
+     * @phpstan-return array<int, T>
+     */
+    public function getDeletions(): array
+    {
+        return $this->data['deletions'];
     }
 
     public function getQueriesCount(): int
@@ -61,8 +91,6 @@ class InfluxDBDataCollector extends DataCollector
     public function reset(): void
     {
         $this->data = [];
-
-        $this->logger->reset();
     }
 
     public function getName(): string

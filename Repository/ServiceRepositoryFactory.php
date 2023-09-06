@@ -19,6 +19,8 @@ class ServiceRepositoryFactory implements RepositoryFactoryInterface
     private array $repositories = [];
 
     /**
+     * @var ServiceLocator
+     *
      * @phpstan-var ServiceLocator<ServiceMeasurementRepositoryInterface>
      */
     private ServiceLocator $repositoryLocator;

@@ -64,4 +64,5 @@ jobs:
               run: vendor/bin/phpcs -q --report=checkstyle | cs2pr
 
             - name: PHPStan
+              if: "${{ matrix.symfony-version == '6.3.*' }}"
               run: vendor/bin/phpstan analyse

@@ -11,8 +11,8 @@ Compatibility
 
 The current version of this bundle has the following requirements:
 * InfluxDB 1.x
-* PHP 8.0+
-* Symfony 4.4+
+* PHP 8.1+
+* Symfony 5.4+
 
 Installation
 ============

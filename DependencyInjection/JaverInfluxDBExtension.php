@@ -39,6 +39,8 @@ class JaverInfluxDBExtension extends Extension
 
         if ($config['mapping_type'] === 'attribute') {
             $managerDefinition->replaceArgument(0, new Reference('javer_influxdb.odm.mapping.driver.attribute'));
+
+            $container->removeDefinition('javer_influxdb.odm.mapping.driver.annotation');
         }
 
         $container->registerForAutoconfiguration(ServiceMeasurementRepositoryInterface::class)

@@ -64,8 +64,10 @@ Configuration
 javer_influx_db:
     url: '%env(INFLUXDB_URL)%'
     mapping_dir: '%kernel.project_dir%/src/Measurement'
-    mapping_type: annotation
+    mapping_type: attribute
 ```
+
+To be able to use annotations, you will have to install an extra package called `doctrine/annotations`.
 
 ```ini
 # .env
